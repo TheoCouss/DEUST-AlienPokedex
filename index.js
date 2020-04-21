@@ -9,8 +9,12 @@ var port = 3000;
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + '/views/');
+hbs.registerHelper('limit', function(str) {
+  if (str.length > 144)
+    return str.substring(0,144) + '...';
+  return str;
+});
 
-app.use(express.static(`public`));
 app.use(bp.urlencoded({extended: false}));
 
 app.use('/', routes);

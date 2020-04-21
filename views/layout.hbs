@@ -9,11 +9,21 @@
     <body>
         <section class="section">
           <div class="container">
-                <h1 class="title">Liste d'aliens</h1>
+                <div class="columns">
+                  <div class="column is-one-fifth is-offset-one-fifth">
+                    <h1 class="title">Liste d'aliens</h1>
+                  </div>
+                  <div class="column is-one-fifth">
+                    <button onclick="location.href = '/new';" class="button is-small is-rounded is-info">Ajouter</button>
+                  </div>
+                </div>
                 <br>
-                {{>list}}
+                <div class="columns">
+                  <div class="column is-three-fifths is-offset-one-fifth">
+                    {{>list}}
+                  </div>
+                </div>
                 <br>
-                <button onclick="location.href = '/new';" class="button is-small is-rounded is-info">Ajouter</button>
 
           </div>
         </section>

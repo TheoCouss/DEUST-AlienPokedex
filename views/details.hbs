@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>Details {{data.alienName}} - DTMIC</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    </head>
+    <body>
+        <section class="section">
+          <div class="container">
+            <div class="columns">
+              <div class="column is-three-fifths is-offset-one-fifth">
+                <div class="box">
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                        <img src="https://api.adorable.io/avatars/128/{{data.alienName}}.png" alt="Image">
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>{{data.alienName}}</strong> <small>ID: {{data.alienId}}</small> | <small>Ajouté le {{data.createdAt}}</small>
+                          <br>
+                          {{data.alienDescription}}
+                        </p>
+                      </div>
+
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+            <div class="container">
+              <div class="columns">
+                <div class="column is-three-fifths is-offset-one-fifth">
+                  <button onclick="location.href = '/';" class="button is-rounded is-small is-primary" type="button" name="button">Retour</button>
+                  <button onclick="location.href = '/del?id={{id}}';" class="button is-rounded is-small is-warning" type="button" name="button">Supprimer</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </body>
+</html>
