@@ -10,6 +10,17 @@ function reloadFile() {
   currentData = JSON.parse(RAW);
 }
 
+function saveFile() {
+  let stringyfied = JSON.stringify(currentData);
+  fs.writeFileSync('aliens.json', stringyfied);
+}
+
+function convertDate(inputFormat) {
+  function pad(s) { return (s < 10) ? '0' + s : s; }
+  var d = new Date(inputFormat)
+  return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
+}
+
 router.get(`/`, (req, res) => {
 
     reloadFile();
@@ -32,8 +43,17 @@ router.post(`/new`, (req, res) => {
 
     console.log("POST /new");
 
-    console.log(req.body.nom);
-    console.log(new Date());
+    reloadFile();
+
+    alienTemplate.alienId = currentData.length;
+    alienTemplate.alienName = req.body.nom;
+    alienTemplate.alienDescription = req.body.description;
+    alienTemplate.createdAt = convertDate(new Date());
+
+    currentData.push(alienTemplate);
+
+    saveFile();
+
 });
 
 module.exports = router;
