@@ -1,0 +1,20 @@
+
+{{#each data}}
+<article class="media">
+  <figure class="media-left">
+    <p class="image is-64x64">
+      <img class="is-rounded" src="https://api.adorable.io/avatars/128/{{alienName}}.png">
+    </p>
+  </figure>
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong>{{alienName}}</strong> <small> Ajouté le {{createdAt}}</small>
+        <br>
+        {{alienDescription}}
+      </p>
+      <button class="button is-small is-info is-light" onclick="location.href = '/new';">Voir +</button>
+    </div>
+  </div>
+</article>
+{{/each}}

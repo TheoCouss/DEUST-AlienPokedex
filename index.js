@@ -1,12 +1,20 @@
 const express = require('express');
-const app = express();
+const hbs = require('hbs');
+const bp = require('body-parser');
+const routes = require('./router');
+
+var app = express();
+var port = 3000;
 
 app.set('view engine', 'hbs');
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+hbs.registerPartials(__dirname + '/views/');
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.use(express.static(`public`));
+app.use(bp.urlencoded({extended: false}));
+
+app.use('/', routes);
+
+app.listen(port, ()=>{
+    console.log(`Server running on port ${port}!`);
 });

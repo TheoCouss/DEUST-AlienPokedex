@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Add Pokalien - DTMIC</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    </head>
+    <body>
+        <section class="section">
+          <div class="container">
+            <div class="columns">
+              <div class="column is-three-fifths is-offset-one-fifth">
+                <h1 class="title">Ajout d'un alien</h1>
+                <form name="addAlien" action="/new" method="post">
+                  <div class="field">
+                    <label class="label">Nom</label>
+                    <div class="control">
+                      <input class="input" name="nom" type="text" placeholder="Nom de l'alien">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                      <textarea name="description" class="textarea" placeholder="Cet alien aime les sushis"></textarea>
+                    </div>
+                  </div>
+                  <button type="submit" class="button is-success is-rounded">Valider</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </body>
+</html>
