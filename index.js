@@ -1,7 +1,10 @@
 const express = require('express');
 const hbs = require('hbs');
 const bp = require('body-parser');
-const routes = require('./router');
+const routes = require('./router.js').router;
+const start = require('./router.js').start;
+
+start();
 
 var app = express();
 var port = 3000;
