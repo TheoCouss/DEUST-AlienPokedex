@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-var alienTemplate = {alienName:"", alienDescription: "", createdAt: ""};
 var currentData = [];
 
 var timeLoop = setInterval(function () {
   saveChanges();
-}, 4000);
+
+}, 10000);
 
 var start = function () {
-  reloadFile();
+  loadFile();
 };
 
-function reloadFile() {
+function loadFile() {
   console.log('Loading file...');
   let RAW = fs.readFileSync('aliens.json');
   currentData = JSON.parse(RAW);
@@ -52,6 +52,10 @@ router.get(`/`, (req, res) => {
     res.render('layout', {data: currentData});
 });
 
+router.get(`/API`, (req, res) => {
+  res.send(currentData);
+});
+
 router.get(`/new`, (req, res) => {
     var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
     console.log(`GET /new from ${ip}`);
@@ -62,11 +66,11 @@ router.post(`/new`, (req, res) => {
     var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
     console.log(`POST /new from ${ip}`);
 
-    alienTemplate.alienName = req.body.nom;
-    alienTemplate.alienDescription = req.body.description;
-    alienTemplate.createdAt = convertDate(new Date());
+    currentData.push({
+      alienName: String(req.body.nom),
+      alienDescription: String(req.body.description),
+      createdAt: convertDate(new Date())});
 
-    currentData.push(alienTemplate);
     res.redirect('/');
 });
 
