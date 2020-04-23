@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-var alienTemplate = {alienId:"", alienName:"", alienDescription: "", createdAt: ""};
+var alienTemplate = {alienName:"", alienDescription: "", createdAt: ""};
 var currentData = [];
 
 var timeLoop = setInterval(function () {
-  remapIDs();
   saveChanges();
 }, 4000);
 
@@ -47,24 +46,11 @@ function convertDate(inputFormat) {
   return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
 }
 
-function remapIDs() {
-  for (var i = 0; i < currentData.length; i++) {
-    currentData[i].alienId = i;
-  }
-}
-
 router.get(`/`, (req, res) => {
     var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
     console.log(`GET / from ${formatIP(ip)}`);
     res.render('layout', {data: currentData});
 });
-
-router.get(`/remap`, function(req, res) {
-  var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-  console.log(`GET /remap from ${formatIP(ip)}`);
-  remapIDs();
-  res.send('done');
-})
 
 router.get(`/new`, (req, res) => {
     var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
@@ -76,7 +62,6 @@ router.post(`/new`, (req, res) => {
     var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
     console.log(`POST /new from ${ip}`);
 
-    alienTemplate.alienId = currentData.length;
     alienTemplate.alienName = req.body.nom;
     alienTemplate.alienDescription = req.body.description;
     alienTemplate.createdAt = convertDate(new Date());
@@ -95,7 +80,6 @@ router.get(`/del`, function (req, res) {
   if (Number.isInteger(id)) {
     if (currentData[id] != null) {
       currentData.splice(id, 1);
-      remapIDs();
       res.redirect('/');
     } else {
       res.send('This ID does not exists!');
