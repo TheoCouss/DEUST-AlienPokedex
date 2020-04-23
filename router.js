@@ -6,8 +6,7 @@ var currentData = [];
 
 var timeLoop = setInterval(function () {
   saveChanges();
-
-}, 10000);
+}, 5000);
 
 var start = function () {
   loadFile();
