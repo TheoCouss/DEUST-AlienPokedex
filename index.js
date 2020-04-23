@@ -17,6 +17,11 @@ hbs.registerHelper('limit', function(str) {
     return str.substring(0,144) + '...';
   return str;
 });
+hbs.registerHelper('limitusername', function(str) {
+  if (str.length > 16)
+    return str.substring(0,16) + '...';
+  return str;
+});
 
 app.use(bp.urlencoded({extended: false}));
 
