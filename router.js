@@ -6,6 +6,7 @@ var alienTemplate = {alienId:"", alienName:"", alienDescription: "", createdAt: 
 var currentData = [];
 
 var timeLoop = setInterval(function () {
+  remapIDs();
   saveChanges();
 }, 4000);
 
@@ -14,7 +15,7 @@ var start = function () {
 };
 
 function reloadFile() {
-  console.log('Reloading file...');
+  console.log('Loading file...');
   let RAW = fs.readFileSync('aliens.json');
   currentData = JSON.parse(RAW);
 }
@@ -94,6 +95,7 @@ router.get(`/del`, function (req, res) {
   if (Number.isInteger(id)) {
     if (currentData[id] != null) {
       currentData.splice(id, 1);
+      remapIDs();
       res.redirect('/');
     } else {
       res.send('This ID does not exists!');
