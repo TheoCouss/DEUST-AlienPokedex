@@ -10,6 +10,7 @@ var app = express();
 var port = 3000;
 
 app.set('view engine', 'hbs');
+app.use(express.static('public'));
 
 hbs.registerPartials(__dirname + '/views/');
 hbs.registerHelper('limit', function(str) {

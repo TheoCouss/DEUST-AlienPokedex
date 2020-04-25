@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-var currentData = [];
+var currentData = []; //Contient le tableau des données contenues dans aliens.json
 
 var timeLoop = setInterval(function () {
   saveChanges();
@@ -18,25 +18,14 @@ function loadFile() {
   currentData = JSON.parse(RAW);
 }
 
-function formatIP(ip) {
-  ip.substr(ip.length-11, 11);
-  return ip;
-}
-
 function saveChanges() {
   let RAW = fs.readFileSync('aliens.json');
   let current = JSON.stringify(currentData);
-
   if (RAW != current) {
-    saveFile();
+    console.log('Saving file...');
+    let stringyfied = JSON.stringify(currentData);
+    fs.writeFileSync('aliens.json', stringyfied);;
   }
-
-}
-
-function saveFile() {
-  console.log('Saving file...');
-  let stringyfied = JSON.stringify(currentData);
-  fs.writeFileSync('aliens.json', stringyfied);
 }
 
 function convertDate(inputFormat) {
@@ -45,9 +34,10 @@ function convertDate(inputFormat) {
   return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
 }
 
+// Sectoin du router
+
 router.get(`/`, (req, res) => {
-    var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    console.log(`GET / from ${formatIP(ip)}`);
+    console.log(`GET / from ${req.connection.remoteAddress}`);
     res.render('layout', {data: currentData});
 });
 
@@ -56,29 +46,25 @@ router.get(`/API`, (req, res) => {
 });
 
 router.get(`/new`, (req, res) => {
-    var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    console.log(`GET /new from ${ip}`);
+    console.log(`GET /new from ${req.connection.remoteAddress}`);
     res.render('new', {layout: false, data: currentData});
 });
 
 router.post(`/new`, (req, res) => {
-    var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    console.log(`POST /new from ${ip}`);
+    console.log(`POST /new from ${req.connection.remoteAddress}`);
 
     currentData.push({
       alienName: String(req.body.nom),
       alienDescription: String(req.body.description),
-      createdAt: convertDate(new Date())});
+      createdAt: convertDate(new Date())
+    });
 
     res.redirect('/');
 });
 
 router.get(`/del`, function (req, res) {
-  var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-  console.log(`GET /del from ${ip}`);
-
   let id = parseInt(req.query.id);
+  console.log(`GET /del from ${req.connection.remoteAddress}`);
 
   if (Number.isInteger(id)) {
     if (currentData[id] != null) {
@@ -90,15 +76,12 @@ router.get(`/del`, function (req, res) {
   } else {
     res.send("Wrong query.");
   }
+
 });
 
 router.get(`/details`, function (req, res) {
-
-  var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-  console.log(`GET /details from ${ip}`);
-
   let id = parseInt(req.query.id);
+  console.log(`GET /del from ${req.connection.remoteAddress}`);
 
   if (Number.isInteger(id)) {
     if (currentData[id] != null) {
@@ -111,6 +94,7 @@ router.get(`/details`, function (req, res) {
   }
 });
 
+//Export du router, la boucle de vérifications de modifications et de la séquence d'initialisation
 module.exports = {
   router,
   timeLoop,
